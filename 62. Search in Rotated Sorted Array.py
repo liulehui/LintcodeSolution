@@ -44,3 +44,6 @@ def search(A, target):
         if index_2 != -1:
             return index_2
         return -1
+
+if __name__  == '__main__':
+    
