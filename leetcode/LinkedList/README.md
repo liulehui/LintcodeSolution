@@ -61,5 +61,15 @@ Then 4->3->2->1 **prev** now is 4
 con.next = prev 1->4->3->2   
 finally 2.next = cur 2->5 
 
+#### 430. Flatten a Multilevel Doubly Linked List
+Solutions:  
+Use a p pointer to stop at where we have a child.      
+If we have a child, we find its  tail and append it to p.next.  
+Then p.next = p.child.  
+
+#### 138. Copy List with Random Pointer
+Solutions:  
+Use a hashmap to store the mapping between old node and new node.  
+
 
   
