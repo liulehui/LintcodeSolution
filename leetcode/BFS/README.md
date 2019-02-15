@@ -39,4 +39,14 @@ Implicit Graph
 
 use BFS plus need to record the level  
 
-#### 
+#### 847. Shortest Path Visiting All Nodes  
+level BFS  
+DP  
+(not done yet)  
+Time: O(2<sup>N</sup> * N)  
+Space: O(2<sup>N</sup> * N)
+
+#### 133. Clone Graph
+Solutions:
+first use BFS get all the nodes  
+copy each node in the new_node  

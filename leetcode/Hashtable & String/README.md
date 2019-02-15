@@ -68,3 +68,8 @@ Time: O(nlogn)
 Solutions:  
 sliding window  
 First, expand the right pointer, for each right pointer meet the requirement, we have right - left + 1 subarrays.  
+
+#### 6. ZigZag Conversion
+Solutions:  
+use two state to record the currentRow to append and use goingDown or up to record +1 or -1  
+Time:  O(n) Space : O(n)
