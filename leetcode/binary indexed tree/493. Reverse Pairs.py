@@ -1,42 +1,47 @@
-import bisect
 class Solution(object):
+    class BIT:
+        def __init__(self, n):
+            self.n = n + 1
+            self.sums = [0] * self.n
+
+        def update(self, i, delta):
+            while i < self.n:
+                self.sums[i] += delta
+                i += i & (-i)
+
+        def query(self, i):
+            res = 0
+            while i > 0:
+                res += self.sums[i]
+                i -= i & (-i)
+            return res
+
     def reversePairs(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        negNums = map(lambda x:-x,nums)
-        pairs = 0
-        sortedNums = sorted(negNums)
-        N = len(negNums)
-        BITree = [0] * (N+1)
+        # BIT O(nlogn)
+        new_nums = nums + [x * 2 for x in nums] 
+        # 这一步非常机智，这样就扯平了importanct reverse的不同
+        # 不需要bisect了
         
-        def count(BITree, before):
-            """
-            return Indentifier(sortedNums)[0] + Indentifier(sortedNums)[1] +...+ Indentifier(sortedNums)[before]
-            """
-            start = before + 1
-            psum = 0
-            while start > 0:
-                psum += BITree[start]
-                start = start - (start&(-start))
-            return psum
-        def add(BITree, rank):
-            """
-            add 1 to Indentifier(sortedNums)[rank]
-            """
-            start = rank + 1
-            while start <= N:
-                BITree[start] += 1
-                start = start + (start&(-start))
-                
-            
-        for k in negNums:
-            before = bisect.bisect_left(sortedNums, k * 2) - 1
-            pairs += count(BITree, before)
+        sorted_set = sorted(list(set(new_nums)))
+        tree = self.BIT(len(sorted_set))
+        res = 0
+        ranks = {}
+        for i, n in enumerate(sorted_set):
+            ranks[n] = i + 1
+        # The question requires nums[i] > 2*nums[j], 
+        # so the question can be transferred to, for each nums[i], how many num * 2 at its right (nums[j]) is smaller than it. 
+        # Now we can find the problem is similar to LC 315 (Count of smaller numbers after self).
+        # The rank is used to map the number to the sorted list idx and BIT idx.
+        # BIT is used to store the frequency of nums at each rank. 
+        # We iterate original nums from right to left, then update num * 2 on BIT. 
+        # So every time we do a query(ranks[n] - 1),
+        # then we can get the total frequency of what we want.
+        for n in nums[::-1]:
+            res += tree.query(ranks[n] - 1)
+            tree.update(ranks[n * 2], 1)
 
-            rank = bisect.bisect_left(sortedNums,k)
-            add(BITree,rank) 
-
-            
-        return pairs
+        return res
