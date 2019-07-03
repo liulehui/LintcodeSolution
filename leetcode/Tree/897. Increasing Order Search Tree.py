@@ -13,6 +13,7 @@ class Solution(object):
         """
         if not root:
             return None
+
         stack = []
         def push_stack(root):
             while root:
@@ -33,5 +34,3 @@ class Solution(object):
             new_leaf = new_leaf.right
             
         return new_root
-                
-        
